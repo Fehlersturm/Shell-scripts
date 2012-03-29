@@ -1,0 +1,40 @@
+copy node.sh to your init.d directory
+adjust the path at line 8 to point to your startnode.sh
+create a startnode.sh an example file is given. This split is mainly so that your devs can include a their own startnode.sh in their repositorys
+
+an example nginx config to talk to all these nodes could look like so:
+
+
+upstream nodes {
+  server unix:/tmp/node1.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node2.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node3.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node4.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node5.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node6.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node7.sock max_fails=3  fail_timeout=30s;
+  server unix:/tmp/node8.sock max_fails=3  fail_timeout=30s;
+}
+
+server {
+
+  server_name domain.com name.net and.org aliases.cc;
+
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_pass http://nodes;
+    proxy_redirect off;
+#lots of tweaking can be done with buffers. but this depends hugely on your app. and node is pretty fast anyhow
+#    proxy_buffering on;
+#    proxy_buffer_size    8k;
+#    proxy_buffers        16 32k;
+#    proxy_busy_buffers_size    64k;
+#    proxy_temp_file_write_size 64k;
+
+  }
+
+}
+

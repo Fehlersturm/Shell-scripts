@@ -1,0 +1,8 @@
+Add a cronjob like this:
+13 6 * * 1-7 /root/autoban/autounban.sh
+
+move autobaninit to /etc/init.d/
+add it to runlevel you want. eg in ubuntu update-rc.d autobaninit defaults
+now start /etc/init.d/autobaninit start
+
+Add some logic to the scripts autoban.sh and autounban.sh to add/remove rules from iptables. Examples for usage of your own chain are given at the appropriate places.

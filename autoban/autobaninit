@@ -1,0 +1,52 @@
+#!/bin/bash
+
+findramdisk()
+{
+local ramdisk=13
+local cnt=0
+while [[ $ramdisk == 13 ]]
+do
+for j in $(mount | grep /dev/ram | cut -d " " -f 1 | cut -c 9-)
+do
+[[ $cnt == $j ]] && local not=1
+done
+if [[ $not == 1 ]]
+then
+cnt=$(( $cnt + 1 ))
+not=0
+else
+ramdisk=$cnt
+fi
+done
+echo $ramdisk
+}
+
+start()
+{
+ramdisk=$(findramdisk)
+mke2fs -m 0 /dev/ram$ramdisk
+mount /dev/ram$ramdisk /root/autoban/ramdisk
+cd /root/autoban
+screen -dmS autoban ./autoban.sh
+}
+
+stop()
+{
+local screenp=$(screen -ls | grep autoban | cut -d "(" -f 1 | cut -d "." -f 1)
+kill $screenp
+umount /root/autoban/ramdisk
+}
+
+case "$1" in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        stop
+        start
+    ;;
+esac
+

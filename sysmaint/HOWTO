@@ -1,0 +1,21 @@
+A way to distribute shellscripts which are executed by root.
+they need to reside here: /home/sysmaint on the server from where they are downloaded
+the downloading servers must have gpg and the Keys with uid INC Recipient installed.
+the file sysmaint.sh is encrypted like so: gpg -e -s -u PUBKEYFINGERPRINT -o new_sysmaint.sh.gpg sysmaint.sh
+the key PRIVKEY is to be stored on a offline machine 
+the file /home/sysmaint/newversion holds the versionnumber. if this is increased all machines will download new.sysmaint.sh and will try to decrypt and execute it.
+one cannot target single machines who downloads but one can filter inside the script eg ask etc/hostname and only execute on a specific host / group of hosts...
+
+Setup:
+Server:
+store contents of folder sysmaint on some server which wants to be the control machine
+adjust all variables like sysmaint_user and workdir updateserver etc in the script dlupdate.sh
+store the 2 keys needed for decryption there too update their names in setupsysmaintroot.sh
+
+Client:
+become root
+create a sysmaint user
+make a keypair and send pubkey to server
+get the setupsysmaintroot.sh e.g like this: scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[IPV6\]:/home/sysmaint/setupsysmaintroot .
+chmod +x and execute it
+done.

@@ -1,0 +1,9 @@
+##This is a collection of all the shellscripts i wrote.
+They are just the glue which holds together the servers i work with. They probably have big design flaws. if you find one feel free to point it out to me. Or fix it right away.
+
+So far we have:
+autoban.sh: compare apache acces logs with a regex. Ban matching IPs. Probably obsolete since fail2ban
+iptables.sh: a init.d script which saves rules on shutdown. an reloads them on restart.
+sysm2.sh: Basic server monitoring. Do some checks on the installed Systems. If errors are found send mails.
+sysmaint: A collection of scripts which allows one to execute commands on many servers at once. as root. TO achive this there is need of one server machine one secret encryption key and the instzallation of the script on all clients. There is a cronjob which asks the server if there is a new version if there is it tries to download and decrypt it. if that is sucessfull it executes the script.
+nodeinit: Start multiple Node.js instances in some pseudo daemonized way  
