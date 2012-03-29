@@ -1,5 +1,6 @@
 #!/bin/bash
-#this can be used as mentainance option. all i-netcloud servers download this. and execute it once.
+#this can be used as mentainance option. all servers download this. and execute it once.
+#THis is no working part of the sysmaint package. Its just a example shellscript 
 loglevel=1 # 1 = error 2 = all
 
 err() { #simple error logging exc: exitstatus additional information to log

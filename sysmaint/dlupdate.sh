@@ -2,7 +2,7 @@
 loglevel=1 # 1 = error 2 = all
 logdir=./log
 workdir=/root/scripts/sysmaint
-updateserver=\[2a01:4f8:141:34a1::17\]
+updateserver=\[2a01:4f8:200:3000::17\] #CHANGE ME
 sysmaint_user=sysmaint
 
 cd $workdir

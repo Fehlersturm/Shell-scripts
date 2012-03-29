@@ -3,7 +3,7 @@
 #Create a user sysmaint 
 #create a keypair and upload it to the cotrol server
 #ssh-keygen -t dsa 
-#ssh-copy-id sysmaint@tool.i-netcloud.com
+#ssh-copy-id sysmaint@server.com
 
 
 if (( `cat /etc/passwd | grep -c sysmaint` == 0 ))
@@ -14,11 +14,11 @@ else
 mkdir /root/scripts
 mkdir /root/scripts/sysmaint
 cd /root/scripts/sysmaint
-scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[2a01:4f8:141:34a1::17\]:/home/sysmaint/411A7CC2INCintenc.key .
+scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[2a01:4f8:141:34a1::17\]:/home/sysmaint/Decryption.key .
 scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[2a01:4f8:141:34a1::17\]:/home/sysmaint/dlupdate.sh .
-scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[2a01:4f8:141:34a1::17\]:/home/sysmaint/E953BDA9INCrecipient.key .
-gpg --import 411A7CC2INCintenc.key
-gpg --import E953BDA9INCrecipient.key
+scp -o IdentityFile=/home/sysmaint/.ssh/id_rsa sysmaint@\[2a01:4f8:141:34a1::17\]:/home/sysmaint/Signature.key .
+gpg --import Decryption.key
+gpg --import Signature.key
 mkdir log
 echo 0 > version
 sed -i 's\/home/sysmaint:/bin/bash\/home/sysmaint:/bin/false\' /etc/passwd
