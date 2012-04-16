@@ -1,0 +1,14 @@
+You need to add something like this to your /etc/network/interfaces
+
+auto br1
+iface br1 inet static
+  address   192.168.124.1
+  netmask   255.255.255.0
+  gateway   [0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.1
+  bridge_ports dummy0
+  bridge_fd 9
+  bridge_hello 2
+  bridge_maxage 12
+  bridge_stp off
+
+up route add -net [0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.0 netmask 255.255.255.224 gw [0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.1 br1

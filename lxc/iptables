@@ -1,0 +1,24 @@
+#!/bin/bash
+source config
+
+iptables -t nat -N lxc-NAT
+iptables -t nat -D PREROUTING -j lxc-NAT
+iptables -t nat -A PREROUTING -j lxc-NAT
+iptables -t nat -F lxc-NAT
+masqtest=$(iptables -t nat -S | grep "$network ! -d $network" | grep -c MASQUERADE)
+if [[ $masqtest -eq 0 ]]
+then
+	echo installing masquerading rules for our virbr
+	iptables -t nat -A POSTROUTING -s $network ! -d $network -p tcp -j MASQUERADE --to-ports 1024-65535
+	iptables -t nat -A POSTROUTING -s $network ! -d $network -p udp -j MASQUERADE --to-ports 1024-65535
+	iptables -t nat -A POSTROUTING -s $network ! -d $network -j MASQUERADE
+elif  [[ $masqtest -eq 3 ]]
+then
+	echo "rules seem to be installed if something is not working check iptables -t nat -S"
+else
+	echo "there is some custom stuff happening here. not touching it"
+	echo "you should have rules which do something equivalent to:"
+        echo "iptables -t nat -A POSTROUTING -s $network ! -d $network -p tcp -j MASQUERADE --to-ports 1024-65535"
+        echo "iptables -t nat -A POSTROUTING -s $network ! -d $network -p udp -j MASQUERADE --to-ports 1024-65535"
+        echo "iptables -t nat -A POSTROUTING -s $network ! -d $network -j MASQUERADE"
+fi

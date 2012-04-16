@@ -1,0 +1,48 @@
+#!/bin/bash
+
+start()
+{
+workdir=/root/scripts
+exec $workdir/mountperssistance
+exec $workdir/iptables
+for i in $(cat $workdir/autostart)
+do
+lxc-start -n $i -d
+done
+}
+
+stop()
+{
+for j in $(cat $workdir/ips | cut -d " " -f 2)
+do
+lxc-stop -n $j 
+done
+}
+
+status()
+{
+for k in $(cat $workdir/ips | cut -d " " -f 2)
+do
+./$workdir/createlxc.sh show $k 
+done
+}
+
+case "$1" in
+        start)
+                start
+        ;;
+        stop)
+                stop
+        ;;
+        restart)
+                stop
+                start
+        ;;
+	show)
+		show
+	;;
+esac
+
+
+
+
