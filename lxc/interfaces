@@ -5,4 +5,4 @@ auto eth0
 iface eth0 inet static
         address IPADDRREPLACE
         netmask 255.255.255.0
-        gateway 10.20.30.1
+        gateway GATEWAYREPLACE

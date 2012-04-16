@@ -1,9 +1,5 @@
 #/bin/bash
 source config
-network=192.168.124.0/32 #ip range for virtual network
-startingip=100 #first ip we want to give to a container
-virbr=br1 #bridge where all virtual interfaces are connected
-gwif=br0 #interface where incoming connections are recived
 ftdip=$(echo $network | cut -d "." -f 1-3)
 cd $workingdir
 if [[ $(cat ips) == "" ]]
@@ -44,7 +40,7 @@ ipaddr=$(newipaddr)
 lxc-create -n $1 -t ubuntu -f $1-network.conf
 if [[ $? -eq 0 ]]
 then
-	[ -e $1-interfaces ] || cat interfaces | sed "s/IPADDRREPLACE/$ipaddr/" > $1-interfaces
+	[ -e $1-interfaces ] || cat interfaces | sed "s/IPADDRREPLACE/$ipaddr/" | sed "s/GATEWAYREPLACE/$gwip/" > $1-interfaces
 	[[ $2 == "special" ]] && vi $1-interfaces
 	cat $1-interfaces > /var/lib/lxc/$1/rootfs/etc/network/interfaces
 	echo "$ipaddr $1" >> ips
