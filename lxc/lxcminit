@@ -17,6 +17,7 @@ for j in $(cat $workdir/ips | cut -d " " -f 2)
 do
 lxc-stop -n $j 
 done
+exec $workdir/iptables stop
 }
 
 status()
