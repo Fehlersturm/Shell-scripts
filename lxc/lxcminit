@@ -2,7 +2,7 @@
 
 start()
 {
-workdir=/root/scripts
+workdir=/root/scripts/lxc
 exec $workdir/mountperssistance
 exec $workdir/iptables
 for i in $(cat $workdir/autostart)
