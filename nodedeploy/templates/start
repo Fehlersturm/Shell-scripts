@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /home/node/git/REPLACESERVICENAME
+nodejs server.js &>> /var/log/node/REPLACESERVICENAME.log

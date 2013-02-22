@@ -1,0 +1,9 @@
+/var/log/node/REPLACESERVICENAME {
+        weekly
+        size 1M
+        copytruncate
+        create
+        compress
+        rotate 20
+        missingok
+}

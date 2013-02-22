@@ -1,0 +1,9 @@
+This is probably very specific and not of use to most people.
+
+it clones the gitrepository at $GITROOT/$1 and checks for a file $1/dependencies.
+
+this file contains one dependency per line. The first word is the name, everything else is description.
+
+there is a casestatment with every dependency this script knows. if a dependency is found it tries to install. if not it prompts the user to install himself.
+
+next the script adds init.d scripts. logfiles. logrotation. 
